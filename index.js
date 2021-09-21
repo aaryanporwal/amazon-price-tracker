@@ -15,11 +15,13 @@ async function checkPrice(page) {
   let price = await page.evaluate(
     () => document.getElementById("priceblock_ourprice").innerText
   );
-  console.log(price);
+  let currentPrice = parseFloat(price.slice(1).replace(",", ""));
+  return currentPrice;
 }
 
 async function monitor() {
   let page = await configureBrowser();
-  await checkPrice(page);
+  await checkPrice(page).then((price) => console.log(price));
+  process.exit(0);
 }
 monitor();
